@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+
+ <!-- Título que aparece na aba do navegador -->
+    <title>Jogo: Advinhe o Número</title>
+
+    <style>
+      body{
+        font-family: Arial,sans-serif;
+        text-align:center;
+        background-color:#f0f8ff;
+        margin-top:80px;
+      }
+
+      h1{
+        color:#2c3e50;
+      }
+
+      input{
+        padding:10px;
+        font-size:18px;
+        width: 80px;
+        text-aligm:center;
+      }
+
+      button{
+        padding: 10px 20px;
+        font-size:18px;
+        margin-left:10px;
+        cuesor:pointer;
+      }
+
+      #mensagem{
+        margin-top:20px;
+        font-size:20px;
+        font-weigh:bold;
+      }
+      </style>
+  </head>
+   <body>
+     <!-- Título do jogo -->
+     <h1>🎯 Adivinhe o Número!</h1>
+
+     <!-- Instrução para jogador -->
+     <p>Escolha um número de 1 a 10</p>
+
+     <!-- Campo onde o jogador digita o número -->
+     <input type="number" id="chute" min="1" max="10">
+
+     <!-- Botão que chama a função verificar() quando clicado-->
+
+     <!-- Botão que chama a função verificar() quando clicado -->
+     <button onclick="verificar()">Tentar</button>
+     <p id="mensagem"></p>
+
+     <script>
+       //Gera um número aleatóriomentre 1 e 10
+       let numeroSecreto = Math.floor(Math.ranbom()*10)+1;
+
+       //Função chamada quando o jogador clica no botão
+       function verificar(){
+
+       //Pega o valor digitado pelo jogador
+       let chute=document.getElementByld("chute").value;
+
+       //Seleciona o elemento onde a mensagem
