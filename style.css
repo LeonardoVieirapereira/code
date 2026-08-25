@@ -11,6 +11,7 @@ body {
     line-height: 1.6;
 }
 
+/* NAVBAR */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -41,6 +42,7 @@ body {
     font-weight: 600;
 }
 
+/* HERO SECTION */
 .hero {
     height: 60vh;
     background: linear-gradient(rgba(13, 40, 24, 0.75), rgba(13, 40, 24, 0.75)), 
@@ -66,6 +68,7 @@ body {
 }
 .btn:hover { background: #27ae60; color: white; transform: translateY(-3px); }
 
+/* LAYOUT E ESTRUTURA */
 .cards-container, .media-section, .interactive-page { padding: 3rem 8%; }
 h2 { font-size: 2.2rem; color: #0d2818; text-align: center; }
 .subtitulo { text-align: center; color: #666; margin-bottom: 2.5rem; }
@@ -79,7 +82,7 @@ h2 { font-size: 2.2rem; color: #0d2818; text-align: center; }
 .card img { width: 100%; height: 200px; object-fit: cover; }
 .card-info { padding: 1.5rem; }
 
-/* ANIMAÇÃO INTERATIVA DOS MARCADORES DO MAPA */
+/* MAPA E PAINEL */
 .map-layout {
     display: flex;
     gap: 2rem;
@@ -119,29 +122,32 @@ h2 { font-size: 2.2rem; color: #0d2818; text-align: center; }
 .detail-item strong { display: block; color: #0d2818; }
 .detail-item.full-width { grid-column: span 2; }
 
-/* ANIMAÇÕES INTERATIVAS DO PULSO NO MAPA */
+/* ANIMAÇÃO SEM TREMIDA (SEM ALTERAR TAMANHO NO HOVER) */
 .pulse-marker {
-    animation: pulseGlow 2s infinite ease-in-out;
+    animation: pulseGlow 2.5s infinite ease-in-out;
     cursor: pointer;
-    transition: transform 0.3s ease;
+    transition: filter 0.3s ease, fill-opacity 0.3s ease;
+    transform-origin: center;
 }
 
 .pulse-marker:hover {
-    transform: scale(1.25);
+    fill-opacity: 1 !important;
+    filter: drop-shadow(0 0 14px rgba(0, 0, 0, 0.6)) brightness(1.15) !important;
 }
 
 @keyframes pulseGlow {
     0% {
-        filter: drop-shadow(0 0 2px rgba(46, 204, 113, 0.6));
+        filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.2));
     }
     50% {
-        filter: drop-shadow(0 0 12px rgba(46, 204, 113, 0.9));
+        filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.45));
     }
     100% {
-        filter: drop-shadow(0 0 2px rgba(46, 204, 113, 0.6));
+        filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.2));
     }
 }
 
+/* VÍDEO E RODAPÉ */
 .video-container {
     position: relative;
     padding-bottom: 56.25%;
