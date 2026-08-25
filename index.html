@@ -1,68 +1,84 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-  <head>
+<html lang="pt-BR">
+<head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geografia do Brasil Interativa</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
 
- <!-- Título que aparece na aba do navegador -->
-    <title>Jogo: Advinhe o Número</title>
+    <header class="navbar">
+        <div class="logo">Geo<span>Brasil</span></div>
+        <nav>
+            <a href="#inicio">Início</a>
+            <a href="#biomas">Biomas</a>
+            <a href="#interativo">Interativo</a>
+            <a href="#midia">Mídia</a>
+        </nav>
+    </header>
 
-    <style>
-      body{
-        font-family: Arial,sans-serif;
-        text-align:center;
-        background-color:#f0f8ff;
-        margin-top:80px;
-      }
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h1>Explore a Diversidade da Geografia Brasileira</h1>
+            <p>Descubra os biomas, o relevo e a riqueza natural do nosso país de forma visual e interativa.</p>
+            <a href="#interativo" class="btn">Começar a Explorar</a>
+        </div>
+    </section>
 
-      h1{
-        color:#2c3e50;
-      }
+    <section id="biomas" class="cards-container">
+        <h2>Biomas do Brasil</h2>
+        <div class="grid">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=600&q=80" alt="Amazônia">
+                <div class="card-info">
+                    <h3>Amazônia</h3>
+                    <p>A maior floresta tropical do mundo, abrigando a maior biodiversidade do planeta.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" alt="Mata Atlântica">
+                <div class="card-info">
+                    <h3>Mata Atlântica</h3>
+                    <p>Rica em biodiversidade, acompanha grande parte do litoral brasileiro.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-      input{
-        padding:10px;
-        font-size:18px;
-        width: 80px;
-        text-aligm:center;
-      }
+    <section id="interativo" class="interactive-section">
+        <h2>Regiões Interativas</h2>
+        <p>Clique nas regiões para descobrir informações detalhadas:</p>
+        
+        <div class="map-container">
+            <!-- SVG simplificado representando o mapa/regiões do Brasil -->
+            <svg viewBox="0 0 500 500" class="mapa-svg">
+                <path id="norte" d="M 100,50 L 300,50 L 250,200 L 100,180 Z" class="regiao" />
+                <path id="nordeste" d="M 300,50 L 450,100 L 380,220 L 250,200 Z" class="regiao" />
+                <path id="centro-oeste" d="M 150,180 L 280,200 L 260,320 L 140,280 Z" class="regiao" />
+                <path id="sudeste" d="M 280,200 L 380,220 L 330,350 L 260,320 Z" class="regiao" />
+                <path id="sul" d="M 260,320 L 330,350 L 290,440 L 220,380 Z" class="regiao" />
+            </svg>
+            <div id="info-box" class="info-box">
+                <h3 id="regiao-titulo">Selecione uma região no mapa</h3>
+                <p id="regiao-desc">Passe o mouse ou clique sobre as áreas do mapa para visualizar o conteúdo.</p>
+            </div>
+        </div>
+    </section>
 
-      button{
-        padding: 10px 20px;
-        font-size:18px;
-        margin-left:10px;
-        cuesor:pointer;
-      }
+    <section id="midia" class="media-section">
+        <h2>Documentários e Mídia</h2>
+        <div class="video-container">
+            <!-- Substitua o src pelo link do seu vídeo do YouTube -->
+            <iframe src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ" title="Vídeo Geografia" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </section>
 
-      #mensagem{
-        margin-top:20px;
-        font-size:20px;
-        font-weigh:bold;
-      }
-      </style>
-  </head>
-   <body>
-     <!-- Título do jogo -->
-     <h1>🎯 Adivinhe o Número!</h1>
+    <footer>
+        <p>&copy; 2026 Geografia do Brasil Interativa. Hospedado no GitHub Pages.</p>
+    </footer>
 
-     <!-- Instrução para jogador -->
-     <p>Escolha um número de 1 a 10</p>
-
-     <!-- Campo onde o jogador digita o número -->
-     <input type="number" id="chute" min="1" max="10">
-
-     <!-- Botão que chama a função verificar() quando clicado-->
-
-     <!-- Botão que chama a função verificar() quando clicado -->
-     <button onclick="verificar()">Tentar</button>
-     <p id="mensagem"></p>
-
-     <script>
-       //Gera um número aleatóriomentre 1 e 10
-       let numeroSecreto = Math.floor(Math.ranbom()*10)+1;
-
-       //Função chamada quando o jogador clica no botão
-       function verificar(){
-
-       //Pega o valor digitado pelo jogador
-       let chute=document.getElementByld("chute").value;
-
-       //Seleciona o elemento onde a mensagem
+    <script src="script.js"></script>
+</body>
+</html>
