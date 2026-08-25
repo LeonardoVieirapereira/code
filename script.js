@@ -1,4 +1,3 @@
-// Base de dados geográfica para as 5 regiões do Brasil
 const dadosRegioes = {
     "Norte": {
         tag: "Região Norte",
@@ -7,7 +6,7 @@ const dadosRegioes = {
         clima: "Equatorial Úmido",
         biomas: "Amazônia e Cerrado",
         estados: "Acre, Amapá, Amazonas, Pará, Rondônia, Roraima e Tocantins",
-        descricao: "É a maior região do Brasil em área territorial. Destaca-se por abrigar a Floresta Amazônica, a maior bacia hidrográfica do mundo e uma vasta biodiversidade nativa."
+        descricao: "É a maior região do Brasil em área territorial. Destaca-se por abrigar a Floresta Amazônica e a maior bacia hidrográfica do mundo."
     },
     "Nordeste": {
         tag: "Região Nordeste",
@@ -16,7 +15,7 @@ const dadosRegioes = {
         clima: "Semiárido, Tropical e Equatorial",
         biomas: "Caatinga, Mata Atlântica e Cerrado",
         estados: "Alagoas, Bahia, Ceará, Maranhão, Paraíba, Pernambuco, Piauí, Rio Grande do Norte e Sergipe",
-        descricao: "Possui a maior faixa litorânea do país. É rica cultural e historicamente, marcada pelo sertão semiárido, pela vegetação de Caatinga e polos agrícolas irrigados."
+        descricao: "Possui a maior faixa litorânea do país. É rica cultural e historicamente, marcada pelo sertão semiárido e a vegetação de Caatinga."
     },
     "Centro-Oeste": {
         tag: "Região Centro-Oeste",
@@ -25,7 +24,7 @@ const dadosRegioes = {
         clima: "Tropical Continental",
         biomas: "Cerrado e Pantanal",
         estados: "Goiás, Mato Grosso, Mato Grosso do Sul e Distrito Federal",
-        descricao: "Coração do agronegócio nacional. Abriga a capital do país, Brasília, além do Pantanal — a maior planície alagável do planeta — e extensas áreas de Cerrado."
+        descricao: "Coração do agronegócio nacional. Abriga a capital Brasília, o Pantanal e extensas áreas de Cerrado."
     },
     "Sudeste": {
         tag: "Região Sudeste",
@@ -34,7 +33,7 @@ const dadosRegioes = {
         clima: "Tropical de Altitude e Subtropical",
         biomas: "Mata Atlântica e Cerrado",
         estados: "Espírito Santo, Minas Gerais, Rio de Janeiro e São Paulo",
-        descricao: "É o centro econômico, industrial e financeiro do Brasil. Com a maior densidade demográfica, possui grandes metrópoles nacionais e relevo dominado por planaltos e serras."
+        descricao: "É o centro econômico e industrial do país, possuindo as maiores metrópoles e densidade demográfica."
     },
     "Sul": {
         tag: "Região Sul",
@@ -43,51 +42,52 @@ const dadosRegioes = {
         clima: "Subtropical",
         biomas: "Mata das Araucárias e Pampa",
         estados: "Paraná, Rio Grande do Sul e Santa Catarina",
-        descricao: "É a menor região em extensão territorial e a mais fria do Brasil, apresentando geadas e eventuais nevadas. Destaca-se pelo alto IDH, agropecuária forte e relevo de planaltos."
+        descricao: "É a menor região em área e a mais fria do país, destacando-se pela agropecuária forte e influências culturais europeias."
     }
 };
 
-// 1. Inicializa o Mapa Leaflet
-const map = L.map('map', {
-    center: [-14.235, -51.925],
-    zoom: 4,
-    zoomControl: true
-});
+const mapElement = document.getElementById('map');
 
-// 2. Adiciona a camada estilizada do mapa
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
-    subdomains: 'abcd',
-    maxZoom: 7,
-    minZoom: 3
-}).addTo(map);
+if (mapElement) {
+    const map = L.map('map', {
+        center: [-14.235, -51.925],
+        zoom: 4
+    });
 
-// 3. Marcadores das Regiões no Mapa
-const regioesGeo = [
-    { nome: "Norte", coords: [-3.0, -60.0], color: "#27ae60" },
-    { nome: "Nordeste", coords: [-7.0, -40.0], color: "#e67e22" },
-    { nome: "Centro-Oeste", coords: [-15.0, -55.0], color: "#f1c40f" },
-    { nome: "Sudeste", coords: [-20.0, -44.0], color: "#e74c3c" },
-    { nome: "Sul", coords: [-27.0, -52.0], color: "#2980b9" }
-];
-
-regioesGeo.forEach(reg => {
-    const circle = L.circleMarker(reg.coords, {
-        color: reg.color,
-        fillColor: reg.color,
-        fillOpacity: 0.7,
-        radius: 22
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+        maxZoom: 7,
+        minZoom: 3
     }).addTo(map);
 
-    circle.bindTooltip(`<b>Região ${reg.nome}</b>`, { permanent: false, direction: "top" });
+    const regioesGeo = [
+        { nome: "Norte", coords: [-3.0, -60.0], color: "#27ae60" },
+        { nome: "Nordeste", coords: [-7.0, -40.0], color: "#e67e22" },
+        { nome: "Centro-Oeste", coords: [-15.0, -55.0], color: "#f1c40f" },
+        { nome: "Sudeste", coords: [-20.0, -44.0], color: "#e74c3c" },
+        { nome: "Sul", coords: [-27.0, -52.0], color: "#2980b9" }
+    ];
 
-    circle.on('click', () => {
-        carregarDadosRegiao(reg.nome);
-        map.flyTo(reg.coords, 5, { duration: 1.2 });
+    regioesGeo.forEach(reg => {
+        // Adiciona marcador com classe de animação pulsante
+        const circle = L.circleMarker(reg.coords, {
+            color: reg.color,
+            fillColor: reg.color,
+            fillOpacity: 0.85,
+            radius: 22,
+            className: 'pulse-marker'
+        }).addTo(map);
+
+        circle.bindTooltip(`<b>Região ${reg.nome}</b>`, { permanent: false, direction: "top" });
+
+        // Eventos interativos
+        circle.on('click', () => {
+            carregarDadosRegiao(reg.nome);
+            map.flyTo(reg.coords, 5, { duration: 1 });
+        });
     });
-});
+}
 
-// 4. Atualiza os dados no painel informativo lateral
 function carregarDadosRegiao(nomeRegiao) {
     const dados = dadosRegioes[nomeRegiao];
     if (!dados) return;
@@ -104,32 +104,3 @@ function carregarDadosRegiao(nomeRegiao) {
 
     document.getElementById('regiao-detalhes').style.display = 'grid';
 }
-
-// 5. Controles de Abertura/Fechamento da Janela Modal do Mapa
-const modal = document.getElementById('map-modal');
-const openBtn = document.getElementById('open-map-btn');
-const heroBtn = document.getElementById('hero-map-btn');
-const closeBtn = document.getElementById('close-map-btn');
-
-function abrirMapa() {
-    modal.style.display = 'block';
-    // Recalcula o tamanho do mapa ao abrir a janela
-    setTimeout(() => {
-        map.invalidateSize();
-    }, 200);
-}
-
-function fecharMapa() {
-    modal.style.display = 'none';
-}
-
-openBtn.addEventListener('click', abrirMapa);
-if(heroBtn) heroBtn.addEventListener('click', abrirMapa);
-closeBtn.addEventListener('click', fecharMapa);
-
-// Fecha o modal se o usuário clicar na área escura fora do mapa
-window.addEventListener('click', (e) => {
-    if (e.target === modal) {
-        fecharMapa();
-    }
-});
