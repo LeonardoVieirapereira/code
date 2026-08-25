@@ -1,55 +1,156 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa Interativo | GeoBrasil</title>
-    
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body class="page-mapa">
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
 
-    <header class="navbar">
-        <div class="logo">Geo<span>Brasil</span></div>
-        <nav>
-            <a href="index.html">← Voltar ao Início</a>
-            <a href="mapa.html" class="active">Mapa Interativo</a>
-        </nav>
-    </header>
+body {
+    background-color: #f4f7f6;
+    color: #2c3e50;
+    line-height: 1.6;
+}
 
-    <main class="interactive-page">
-        <div class="page-header">
-            <h2>Mapa Interativo das Regiões</h2>
-            <p>Clique ou passe o mouse sobre uma região no mapa para carregar dados detalhados:</p>
-        </div>
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 8%;
+    background: #0d2818;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
 
-        <div class="map-layout">
-            <div id="map"></div>
+.navbar .logo { font-size: 1.6rem; font-weight: 700; }
+.navbar .logo span { color: #2ecc71; }
+.navbar nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 2rem;
+    transition: color 0.3s;
+}
+.navbar nav a:hover, .navbar nav a.active { color: #2ecc71; }
 
-            <div id="info-panel" class="info-panel">
-                <div class="panel-header">
-                    <span class="badge" id="regiao-tag">Instrução</span>
-                    <h2 id="regiao-titulo">Selecione uma Região</h2>
-                </div>
-                
-                <p id="regiao-desc" class="desc-text">
-                    Navegue pelo mapa ao lado e clique em uma das 5 regiões geográficas para visualizar dados demográficos, vegetação, clima e estados.
-                </p>
+.nav-highlight {
+    background: #2ecc71;
+    color: #0d2818 !important;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+}
 
-                <div id="regiao-detalhes" class="details-grid" style="display: none;">
-                    <div class="detail-item"><strong>Área Aproximada:</strong> <span id="det-area">-</span></div>
-                    <div class="detail-item"><strong>População:</strong> <span id="det-populacao">-</span></div>
-                    <div class="detail-item"><strong>Clima Predominante:</strong> <span id="det-clima">-</span></div>
-                    <div class="detail-item"><strong>Biomas Principais:</strong> <span id="det-biomas">-</span></div>
-                    <div class="detail-item full-width"><strong>Estados:</strong> <span id="det-estados">-</span></div>
-                </div>
-            </div>
-        </div>
-    </main>
+.hero {
+    height: 60vh;
+    background: linear-gradient(rgba(13, 40, 24, 0.75), rgba(13, 40, 24, 0.75)), 
+                url('https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=1500&q=80') center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    padding: 0 2rem;
+}
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="script.js"></script>
-</body>
-</html>
+.hero h1 { font-size: 2.8rem; margin-bottom: 1rem; }
+.btn {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    background: #2ecc71;
+    color: #0d2818;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+}
+.btn:hover { background: #27ae60; color: white; transform: translateY(-3px); }
+
+.cards-container, .media-section, .interactive-page { padding: 3rem 8%; }
+h2 { font-size: 2.2rem; color: #0d2818; text-align: center; }
+.subtitulo { text-align: center; color: #666; margin-bottom: 2.5rem; }
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+.card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,0.06); }
+.card img { width: 100%; height: 200px; object-fit: cover; }
+.card-info { padding: 1.5rem; }
+
+/* ANIMAÇÃO INTERATIVA DOS MARCADORES DO MAPA */
+.map-layout {
+    display: flex;
+    gap: 2rem;
+    align-items: stretch;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+#map {
+    flex: 1 1 500px;
+    height: 550px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.info-panel {
+    flex: 1 1 380px;
+    background: white;
+    padding: 2.5rem;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+.badge { background: #e8f5e9; color: #2e7d32; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+.info-panel h2 { text-align: left; margin-top: 0.5rem; }
+.desc-text { color: #555; margin-bottom: 1.5rem; }
+
+.details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    background: #f8f9fa;
+    padding: 1.2rem;
+    border-radius: 10px;
+    border-left: 4px solid #2ecc71;
+}
+.detail-item strong { display: block; color: #0d2818; }
+.detail-item.full-width { grid-column: span 2; }
+
+/* ANIMAÇÕES INTERATIVAS DO PULSO NO MAPA */
+.pulse-marker {
+    animation: pulseGlow 2s infinite ease-in-out;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.pulse-marker:hover {
+    transform: scale(1.25);
+}
+
+@keyframes pulseGlow {
+    0% {
+        filter: drop-shadow(0 0 2px rgba(46, 204, 113, 0.6));
+    }
+    50% {
+        filter: drop-shadow(0 0 12px rgba(46, 204, 113, 0.9));
+    }
+    100% {
+        filter: drop-shadow(0 0 2px rgba(46, 204, 113, 0.6));
+    }
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    max-width: 900px;
+    margin: 0 auto;
+    border-radius: 15px;
+    overflow: hidden;
+}
+.video-container iframe { position: absolute; top:0; left:0; width:100%; height:100%; }
+
+footer { background: #0d2818; color: white; text-align: center; padding: 2rem; margin-top: 2rem; }
