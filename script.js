@@ -1,10 +1,10 @@
-// Base de dados geográfica rica para as 5 regiões do Brasil
+// Base de dados geográfica para as 5 regiões do Brasil
 const dadosRegioes = {
     "Norte": {
         tag: "Região Norte",
         area: "3.853.676 km² (45% do país)",
         populacao: "Aproximadamente 18,7 milhões",
-        clima: "Eatorial Úmido",
+        clima: "Equatorial Úmido",
         biomas: "Amazônia e Cerrado",
         estados: "Acre, Amapá, Amazonas, Pará, Rondônia, Roraima e Tocantins",
         descricao: "É a maior região do Brasil em área territorial. Destaca-se por abrigar a Floresta Amazônica, a maior bacia hidrográfica do mundo e uma vasta biodiversidade nativa."
@@ -47,14 +47,14 @@ const dadosRegioes = {
     }
 };
 
-// 1. Inicializa o Mapa interativo focado no Brasil
+// 1. Inicializa o Mapa Leaflet
 const map = L.map('map', {
     center: [-14.235, -51.925],
     zoom: 4,
     zoomControl: true
 });
 
-// 2. Adiciona camada de mapa elegante (CartoDB Positron)
+// 2. Adiciona a camada estilizada do mapa
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
     attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
     subdomains: 'abcd',
@@ -62,7 +62,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
     minZoom: 3
 }).addTo(map);
 
-// 3. Marcadores/Polígonos aproximados das 5 Regiões para navegação e clique
+// 3. Marcadores das Regiões no Mapa
 const regioesGeo = [
     { nome: "Norte", coords: [-3.0, -60.0], color: "#27ae60" },
     { nome: "Nordeste", coords: [-7.0, -40.0], color: "#e67e22" },
@@ -71,7 +71,6 @@ const regioesGeo = [
     { nome: "Sul", coords: [-27.0, -52.0], color: "#2980b9" }
 ];
 
-// Adiciona círculos interativos destacados no centro de cada região
 regioesGeo.forEach(reg => {
     const circle = L.circleMarker(reg.coords, {
         color: reg.color,
@@ -82,14 +81,13 @@ regioesGeo.forEach(reg => {
 
     circle.bindTooltip(`<b>Região ${reg.nome}</b>`, { permanent: false, direction: "top" });
 
-    // Eventos ao clicar no ponto do mapa
     circle.on('click', () => {
         carregarDadosRegiao(reg.nome);
         map.flyTo(reg.coords, 5, { duration: 1.2 });
     });
 });
 
-// 4. Função para atualizar os dados no painel lateral
+// 4. Atualiza os dados no painel informativo lateral
 function carregarDadosRegiao(nomeRegiao) {
     const dados = dadosRegioes[nomeRegiao];
     if (!dados) return;
@@ -104,6 +102,34 @@ function carregarDadosRegiao(nomeRegiao) {
     document.getElementById('det-biomas').innerText = dados.biomas;
     document.getElementById('det-estados').innerText = dados.estados;
 
-    // Exibe o grid com informações técnicas
     document.getElementById('regiao-detalhes').style.display = 'grid';
 }
+
+// 5. Controles de Abertura/Fechamento da Janela Modal do Mapa
+const modal = document.getElementById('map-modal');
+const openBtn = document.getElementById('open-map-btn');
+const heroBtn = document.getElementById('hero-map-btn');
+const closeBtn = document.getElementById('close-map-btn');
+
+function abrirMapa() {
+    modal.style.display = 'block';
+    // Recalcula o tamanho do mapa ao abrir a janela
+    setTimeout(() => {
+        map.invalidateSize();
+    }, 200);
+}
+
+function fecharMapa() {
+    modal.style.display = 'none';
+}
+
+openBtn.addEventListener('click', abrirMapa);
+if(heroBtn) heroBtn.addEventListener('click', abrirMapa);
+closeBtn.addEventListener('click', fecharMapa);
+
+// Fecha o modal se o usuário clicar na área escura fora do mapa
+window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        fecharMapa();
+    }
+});
